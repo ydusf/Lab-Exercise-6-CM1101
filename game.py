@@ -60,7 +60,9 @@ def print_room_items(room):
 
     """
     
-    print("There is "+list_of_items(room["items"])+" here.")
+    if room["items"] != []:
+        print("There is "+list_of_items(room["items"])+" here.")
+        print()
 
 
 def print_inventory_items(items):
@@ -74,7 +76,8 @@ def print_inventory_items(items):
 
     """
     
-    print("You have "+list_of_items(inventory)+".")
+    print("You have "+list_of_items(items)+".")
+    print()
 
 
 def print_room(room):
@@ -131,7 +134,6 @@ def print_room(room):
     print(room["description"])
     print()
     print_room_items(room)
-    print()
 
     #
     # COMPLETE ME!
@@ -209,9 +211,6 @@ def print_menu(exits, room_items, inv_items):
         print("DROP "+item["id"].upper()+" to drop "+item["name"]+".")
     
     print("What do you want to do?")
-
-    chosen_option = input()
-    execute_command(chosen_option)
 
     #
     # COMPLETE ME!
