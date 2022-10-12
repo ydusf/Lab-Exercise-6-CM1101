@@ -252,7 +252,12 @@ def execute_take(item_id):
     there is no such item in the room, this function prints
     "You cannot take that."
     """
-    pass
+    
+    if item_id in current_room["items"]:
+        current_room["items"].pop(item_id)
+        inventory.append(item_id)
+    else:
+        print("You cannot take that.")
     
 
 def execute_drop(item_id):
