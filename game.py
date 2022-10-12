@@ -24,7 +24,17 @@ def list_of_items(items):
     'money, a student handbook, laptop'
 
     """
-    pass
+    
+    item_names = ""
+    counter = 0
+
+    for item in items:
+        counter += 1
+        if counter != len(items):
+            item_names += item["name"]+", "
+        else:
+            item_names += item["name"]
+    return item_names
 
 
 def print_room_items(room):
@@ -49,7 +59,8 @@ def print_room_items(room):
     Note: <BLANKLINE> here means that doctest should expect a blank line.
 
     """
-    pass
+    
+    print("There is "+list_of_items(room["items"])+" here.")
 
 
 def print_inventory_items(items):
@@ -62,7 +73,8 @@ def print_inventory_items(items):
     <BLANKLINE>
 
     """
-    pass
+    
+    print("You have "+list_of_items(inventory)+".")
 
 
 def print_room(room):
@@ -117,6 +129,8 @@ def print_room(room):
     print()
     # Display room description
     print(room["description"])
+    print()
+    print_room_items(room)
     print()
 
     #
@@ -189,12 +203,19 @@ def print_menu(exits, room_items, inv_items):
     for direction in exits:
         # Print the exit name and where it leads to
         print_exit(direction, exit_leads_to(exits, direction))
+    for item in room_items:
+        print("TAKE "+item["id"].upper()+" to take "+item["name"]+".")
+    for item in inv_items:
+        print("DROP "+item["id"].upper()+" to drop "+item["name"]+".")
+    
+    print("What do you want to do?")
+
+    chosen_option = input()
+    execute_command(chosen_option)
 
     #
     # COMPLETE ME!
     #
-    
-    print("What do you want to do?")
 
 
 def is_valid_exit(exits, chosen_exit):
@@ -315,7 +336,7 @@ def move(exits, direction):
 
 # This is the entry point of our program
 def main():
-
+    current_room = rooms["Reception"]
     # Main game loop
     while True:
         # Display game status (room description, inventory etc.)
