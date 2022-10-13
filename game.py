@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+#python -m doctest game.py
 
 from map import rooms
 from player import *
@@ -151,6 +152,7 @@ def exit_leads_to(exits, direction):
     >>> exit_leads_to(rooms["Tutor"]["exits"], "west")
     'Reception'
     """
+    
     return rooms[exits[direction]]["name"]
 
 
@@ -167,6 +169,7 @@ def print_exit(direction, leads_to):
     >>> print_exit("south", "MJ and Simon's room")
     GO SOUTH to MJ and Simon's room.
     """
+    
     print("GO " + direction.upper() + " to " + leads_to + ".")
 
 
@@ -209,7 +212,6 @@ def print_menu(exits, room_items, inv_items):
         print("TAKE "+item["id"].upper()+" to take "+item["name"]+".")
     for item in inv_items:
         print("DROP "+item["id"].upper()+" to drop "+item["name"]+".")
-    
     print("What do you want to do?")
 
     #
@@ -242,8 +244,16 @@ def execute_go(direction):
     (and prints the name of the room into which the player is
     moving). Otherwise, it prints "You cannot go there."
     """
+
+    global current_room
     
-    pass
+    exits = current_room["exits"]
+
+    if is_valid_exit(exits, direction):
+        current_room = move(exits, direction)
+        print(current_room["name"])
+    else:
+        print("You cannot go there.")
 
 
 def execute_take(item_id):
@@ -273,6 +283,7 @@ def execute_drop(item_id):
             current_room["items"].append(item)
         else:
             print("You cannot drop that.")
+            
     
 
 def execute_command(command):
@@ -348,7 +359,6 @@ def move(exits, direction):
 
 # This is the entry point of our program
 def main():
-    current_room = rooms["Reception"]
     # Main game loop
     while True:
         # Display game status (room description, inventory etc.)
@@ -360,7 +370,6 @@ def main():
 
         # Execute the player's command
         execute_command(command)
-
 
 
 # Are we being run as a script? If so, run main().
