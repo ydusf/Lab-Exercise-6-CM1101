@@ -77,36 +77,56 @@ south and east. The exit is to the west.""",
     "items": [item_biscuits, item_handbook]
 }
 
-room = room_reception
+current_room = room_reception
 inventory = [item_id, item_laptop, item_money]
 items = inventory
 
 
-def list_of_items(items):
-    item_names = ""
-    counter = 0
+# def list_of_items(items):
+#     item_names = ""
+#     counter = 0
 
-    for item in items:
-        counter += 1
-        if counter != len(items):
-            item_names += item["name"]+", "
+#     for item in items:
+#         counter += 1
+#         if counter != len(items):
+#             item_names += item["name"]+", "
+#         else:
+#             item_names += item["name"]
+#     return item_names
+
+# def print_room_items(room):
+#     if room["items"] != []:
+#         print("There is "+list_of_items(room["items"])+" here.")
+#         print()
+
+# print()
+# print(room["name"].upper())
+# print()
+# # Display room description
+# print(room["description"])
+# print()
+# print_room_items(room)
+# print()
+# def execute_take(item_id):
+#     for item in current_room["items"]:
+#         if item["id"] == item_id:
+#             current_room["items"].remove(item)
+#             inventory.append(item)
+#         else:
+#             print("You cannot take that.")
+# execute_take("biscuits")
+# print(inventory[3])
+
+def execute_drop(item_id):
+    for item in inventory:
+        if item["id"] == item_id:
+            inventory.remove(item)
+            current_room["items"].append(item)
         else:
-            item_names += item["name"]
-    return item_names
+            print("You cannot drop that.")
+execute_drop("laptop")
+print(inventory[0])
 
-def print_room_items(room):
-    if room["items"] != []:
-        print("There is "+list_of_items(room["items"])+" here.")
-        print()
-
-print()
-print(room["name"].upper())
-print()
-# Display room description
-print(room["description"])
-print()
-print_room_items(room)
-print()
 
 # if room["items"] != []:
 #     print("There is "+list_of_items(room["items"])+" here.")
