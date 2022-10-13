@@ -76,9 +76,11 @@ def print_inventory_items(items):
     <BLANKLINE>
 
     """
-    
-    print("You have "+list_of_items(items)+".")
-    print()
+    if items != []:
+        print("You have "+list_of_items(items)+".")
+        print()
+    else:
+        print("You have no items.")
 
 
 def print_room(room):
@@ -246,7 +248,7 @@ def execute_go(direction):
     """
 
     global current_room
-    
+
     exits = current_room["exits"]
 
     if is_valid_exit(exits, direction):
@@ -263,10 +265,17 @@ def execute_take(item_id):
     "You cannot take that."
     """
     
+    mass = 0
+
+    for i in inventory:
+        mass += i["mass"]
+
     for item in current_room["items"]:
-        if item["id"] == item_id:
+        if item["id"] == item_id and mass <= 3:
             current_room["items"].remove(item)
             inventory.append(item)
+        elif mass > 3:
+            print("You cannot take that because you have more than 3 kg of inventory.")
         else:
             print("You cannot take that.")
     
@@ -276,7 +285,7 @@ def execute_drop(item_id):
     player's inventory to list of items in the current room. However, if there is
     no such item in the inventory, this function prints "You cannot drop that."
     """
-    
+
     for item in inventory:
         if item["id"] == item_id:
             inventory.remove(item)
@@ -289,7 +298,7 @@ def execute_drop(item_id):
 def execute_command(command):
     """This function takes a command (a list of words as returned by
     normalise_input) and, depending on the type of action (the first word of
-    the command: "go", "take", or "drop"), executes either execute_go,
+    the command: "go", "take", or "drop"), execsutes either execute_go,
     execute_take, or execute_drop, supplying the second word as the argument.
 
     """

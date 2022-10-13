@@ -41,6 +41,8 @@ def execute_go(direction):
         print("You cannot go there.")
 execute_go("south")
 
+print(list_of_items(inventory))
+print(normalise_input("How about I go through that little passage to the south..."))
 
 # if room["items"] != []:
 #     print("There is "+list_of_items(room["items"])+" here.")

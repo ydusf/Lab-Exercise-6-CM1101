@@ -86,14 +86,12 @@ def normalise_input(user_input):
     # Remove punctuation and convert to lower case
     no_spaces = user_input.strip()
     no_punct = remove_punct(no_spaces).lower()
-    
-    important_words = []
-    filtered_words = filter_words(no_punct, skip_words)
 
-    for word in user_input.split():
-        if word in filtered_words:
-            important_words.append(word)
-    return important_words
+    important_words = no_punct.split()
+    filtered_words = filter_words(important_words, skip_words)
+
+    return filtered_words
+    
 
     #
     # COMPLETE ME!
