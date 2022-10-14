@@ -266,18 +266,25 @@ def execute_take(item_id):
     """
     
     mass = 0
+    found = False
 
     for i in inventory:
         mass += i["mass"]
 
     for item in current_room["items"]:
-        if item["id"] == item_id and mass+item["mass"] <= 3:
+        if item["id"] == item_id:
+            found = True
+            break
+            
+            
+    if found == True and mass+item["mass"] <= 3:
             current_room["items"].remove(item)
             inventory.append(item)
-        elif item["id"] == item_id and mass+item["mass"] > 3:
-            print("You cannot take that because you have more than 3 kg of inventory.")
-        else:
-            print("You cannot take that.")
+            print("You have taken "+item["name"]+".")
+    elif found == True and mass+item["mass"] > 3:
+        print("You cannot take that because you have more than 3 kg of inventory.")
+    else:
+        print("You cannot take that.")
     
 
 def execute_drop(item_id):
@@ -286,14 +293,20 @@ def execute_drop(item_id):
     no such item in the inventory, this function prints "You cannot drop that."
     """
 
+    found = False
+
     for item in inventory:
         if item["id"] == item_id:
-            inventory.remove(item)
-            current_room["items"].append(item)
-        else:
-            print("You cannot drop that.")
+            found = True
+            break
+
+    if found == True:
+        inventory.remove(item)
+        current_room["items"].append(item)
+        print("You have dropped "+item["name"]+".")
+    else:
+        print("You cannot drop that.")
             
-    
 
 def execute_command(command):
     """This function takes a command (a list of words as returned by
@@ -365,11 +378,19 @@ def move(exits, direction):
     # Next room to go to
     return rooms[exits[direction]]
 
+def has_won(room):
+    if len(room["items"]) < 6:
+        return False
+    else:
+        print("Congratulations you have successfully earnt your victory.")
+        print("All 6 items were returned to the reception as requested.")
+        return True
+        
 
 # This is the entry point of our program
 def main():
     # Main game loop
-    while True:
+    while has_won(rooms["Reception"]) == False:
         # Display game status (room description, inventory etc.)
         print_room(current_room)
         print_inventory_items(inventory)
@@ -379,6 +400,8 @@ def main():
 
         # Execute the player's command
         execute_command(command)
+
+        # Checks if players won
 
 
 # Are we being run as a script? If so, run main().
