@@ -271,10 +271,10 @@ def execute_take(item_id):
         mass += i["mass"]
 
     for item in current_room["items"]:
-        if item["id"] == item_id and mass <= 3:
+        if item["id"] == item_id and mass+item["mass"] <= 3:
             current_room["items"].remove(item)
             inventory.append(item)
-        elif mass > 3:
+        elif item["id"] == item_id and mass+item["mass"] > 3:
             print("You cannot take that because you have more than 3 kg of inventory.")
         else:
             print("You cannot take that.")
